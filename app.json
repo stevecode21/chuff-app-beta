@@ -22,7 +22,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": false
+    },
+    "android": {},
+    "description": "Chuff - ¡Comamos Juntos!",
+    "githubUrl": "https://github.com/stevecode21/chuff-app-beta"
   }
 }
