@@ -1,0 +1,5 @@
+{
+  //Le vamos a indicar que en lugar de utilizar el analizador por defecto de eslint que utilizo en analizador de babel-eslint
+  "parser": "babel-eslint",
+  "extends": ["./node_modules/standard/eslintrc.json"]
+}

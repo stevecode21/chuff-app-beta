@@ -1,11 +1,11 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-export default function EventsCalendar() {
+export default function Calendar () {
   return (
 
     <View>
-      <Text>Events Calendar...</Text>
+      <Text>Calendar...</Text>
     </View>
   )
-} 
+}
