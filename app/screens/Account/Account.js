@@ -1,12 +1,13 @@
 // Importo mis Hooks
 import React, { useState, useEffect } from 'react'
-import { Text } from 'react-native'
 // Importamos firebase para la autenticación
 import * as firebase from 'firebase'
 // Importamos el screen del usuario invitado
 import UserGuest from './UserGuest'
 // Importamos el screen del usuario logeado
 import UserLogged from './UserLogged'
+// Importaremos el componente Loading
+import Loading from '../../components/Loading/Loading'
 
 export default function Account () {
   // Crearemos el state para validar si mi usuario está logueado o no
@@ -21,8 +22,8 @@ export default function Account () {
     })
   }, [])
 
-  // Si login es exactamente igual a null significa que va a estar cargando, de lo contrario el usuario ya habrá cargado
-  if (login === null) return <Text>Cargando...</Text>
+  // Si login es exactamente igual a null significa que va a estar cargando, de lo contrario el usuario ya habrá cargado, Loading solamente será visible (gracias a la propiedad isVisible) mientras login es´te null
+  if (login === null) return <Loading isVisible text='A unos pocos pasos!' />
 
   // Si el usuario está logueado, voy a renderizar el componente UserLogged, de lo contrario, renderizaremos el screen del usuario que no está logueado
   return login ? <UserLogged /> : <UserGuest />
