@@ -9,7 +9,7 @@ import UserLogged from './UserLogged'
 // Importaremos el componente Loading
 import Loading from '../../components/Loading/Loading'
 
-export default function Account () {
+export default function Profile () {
   // Crearemos el state para validar si mi usuario está logueado o no
   const [login, setLogin] = useState(null)
   useEffect(() => {

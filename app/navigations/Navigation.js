@@ -10,7 +10,7 @@ import { Icon } from 'react-native-elements'
 import HomeStack from './HomeStack'
 import RecipesStack from './RecipesStack'
 import CalendarStack from './CalendarStack'
-import AccountStack from './AccountStack'
+import ProfileStack from './ProfileStack'
 
 // Crearemos el componente
 const Tab = createBottomTabNavigator()
@@ -53,9 +53,9 @@ export default function Navigation () {
           options={{ title: 'Calendario' }}
         />
         <Tab.Screen
-          name='account'
-          component={AccountStack}
-          options={{ title: 'Cuenta' }}
+          name='profile'
+          component={ProfileStack}
+          options={{ title: 'Profile' }}
         />
 
       </Tab.Navigator>
@@ -82,7 +82,7 @@ function screenOptions (route, color) {
       // Esta variable guardará el alias de mi Icon
       iconName = 'calendar-range'
       break
-    case 'account':
+    case 'profile':
       // Esta variable guardará el alias de mi Icon
       iconName = 'account-outline'
       break
