@@ -1,28 +1,29 @@
 import React from 'react'
 // Estamos importanto el componente de Navigation container ya que el sistema de navegacion tiene que estar envuelto en este componente para que funcione
-import { NavigationContainer } from '@react-navigation/native'
+// import { NavigationContainer } from '@react-navigation/native'
 // Improtamos una función para crear nuestro menú tam
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 // Importo los Icons de React Native Elements
 import { Icon } from 'react-native-elements'
 // import Calendar from '../screens/Calendar'
 // En lugar de importar directamente mis screens lo que haré será importar mis stacks
-import HomeStack from './HomeStack'
-import RecipesStack from './RecipesStack'
-import CalendarStack from './CalendarStack'
-import ProfileStack from './ProfileStack'
+import HomeStack from '../ScreenStacks/HomeStack'
+import RecipesStack from '../ScreenStacks/RecipesStack'
+import CalendarStack from '../ScreenStacks/CalendarStack'
+import ProfileStack from '../ScreenStacks/ProfileStack'
 
 // Crearemos el componente
 const Tab = createBottomTabNavigator()
 
 export default function Navigation () {
   return (
-    <NavigationContainer>
+  // <NavigationContainer>
+    <>
       <Tab.Navigator
       // Este será el screen inicial una vez se inicie la app
         initialRouteName='home'
         tabBarOptions={{
-          // Este será el color que tendrá mis botones del tab cuando no estén seleccionados
+        // Este será el color que tendrá mis botones del tab cuando no estén seleccionados
           inactiveTintColor: '#646464',
           // Este será el color del menu está activado
           activeTintColor: '#00A680',
@@ -30,7 +31,7 @@ export default function Navigation () {
         }}
         // Esta propiedad recibe las rutas y por las props recibimos
         screenOptions={({ route }) => ({
-          //
+        //
           tabBarIcon: ({ color }) => screenOptions(route, color)
         })}
 
@@ -59,7 +60,8 @@ export default function Navigation () {
         />
 
       </Tab.Navigator>
-    </NavigationContainer>
+      {/* // </NavigationContainer> */}
+    </>
 
   )
 }

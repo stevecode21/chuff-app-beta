@@ -19,7 +19,7 @@ export default function Loading (props) {
     >
       <View style={styles.view}>
         {/* Aquí mostraré el spinner */}
-        <ActivityIndicator size='large' color='#000' />
+        <ActivityIndicator size='small' color='#454648' />
         {/* Aqui evaluaremos si el texto llega, vamos a renderizar dicho texto, esto es como si fuese un if sin else  */}
         {text && <Text style={styles.text}>{text}</Text>}
       </View>
@@ -29,12 +29,12 @@ export default function Loading (props) {
 const styles = StyleSheet.create({
   // Estos serán los estilos del overlay, lo llamaremos modal
   overlay: {
-    height: 100,
-    width: 200,
+    height: 80,
+    width: 80,
     backgroundColor: '#fff',
     borderColor: '#000',
     borderWidth: 2,
-    borderRadius: 10
+    borderRadius: 5
   },
   // Estos serán los estilos de mi view
   view: {
