@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Input, Icon, Button } from 'react-native-elements'
-
+// Importamos la validación de mi email
+import { validateEmail } from '../../utils/Validations'
 export const RegisterForm = () => {
   // Este será mi state para mostrar la contraseña con el icon button
   const [showPassword, setShowPassword] = useState(false)
@@ -11,6 +12,7 @@ export const RegisterForm = () => {
   // Creamos un evento obSumit para el botón
   const onSubmit = () => {
     console.log(formData)
+    console.log(validateEmail(formData.email))
   }
 
   // Creamos el evento onChange para ser el escuchador de nuestros inputs
