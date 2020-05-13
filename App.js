@@ -10,7 +10,7 @@ import Loading from './app/components/Loading/Loading'
 // Importamos la configuración de firebase
 import { firebaseApp } from './app/utils/firebase'
 
-export default function App() {
+export default function App () {
   // Crearemos el state para validar si mi usuario está logueado o no
   const [registered, setRegistered] = useState(null)
   useEffect(() => {

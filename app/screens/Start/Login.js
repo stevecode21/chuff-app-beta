@@ -1,22 +1,25 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { StyleSheet, View, ScrollView, Text } from 'react-native'
 // Esto será una linea para dividir una cosa de la otra
 import { Divider } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
-
+import Toast from 'react-native-easy-toast'
 import ImageStart from '../../components/ImageStart/ImageStart'
+import LoginForm from '../../components/Start/LoginForm'
 
 export default function Login () {
+  const toastRef = useRef()
   return (
     <ScrollView style={styles.viewBody}>
       <ImageStart />
       <View style={styles.viewContainerLogin}>
-        <Text>Iniciar Sesión</Text>
+        <LoginForm toastRef={toastRef} />
         <Register />
       </View>
       <Divider style={styles.dividerLine} />
       <Text>Social Login</Text>
       <Text>Beta</Text>
+      <Toast ref={toastRef} position='top' opacity={0.9} />
     </ScrollView>
   )
 }

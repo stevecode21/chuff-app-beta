@@ -7,14 +7,14 @@ import Toast from 'react-native-easy-toast'
 import ImageStart from '../../components/ImageStart/ImageStart'
 import { RegisterForm } from '../../components/Start/RegisterForm'
 
-export default function Register() {
+export default function Register () {
   // Creamos una constante para inicilizar el hook useRef que es el que vamos a usar para mi componente Toast y así darle una referencia para su ejecución
   const toastRef = useRef()
   return (
     <KeyboardAwareScrollView style={styles.viewBody}>
       <ImageStart />
       <View style={styles.viewContainerRegister}>
-        {/* A registerForm le voy a pasar por props la referencia del toast*/}
+        {/* A registerForm le voy a pasar por props la referencia del toast */}
         <RegisterForm toastRef={toastRef} />
       </View>
       {/* Llamamos el Toast y le damos propiedades como la referencia toastRef para decirle cuando se debe mostrar y lo centramos con position */}

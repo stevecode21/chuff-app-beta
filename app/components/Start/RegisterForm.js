@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Input, Icon, Button } from 'react-native-elements'
+// Importo mi loading para que mientras firebase registra el usuario haya un loading
+import Loading from '../Loading/Loading'
 // Importamos la validación de mi email
 import { validateEmail } from '../../utils/Validations'
-//Vamos a importar lodash y traemos size para validar la longitud de la password, también traeremos isEmpty para validar si el form está vacío o no
+// Vamos a importar lodash y traemos size para validar la longitud de la password, también traeremos isEmpty para validar si el form está vacío o no
 import { size, isEmpty } from 'lodash'
 // Voy a importar firebase para enviar los datos del registro y registrar exitosamente el usuario
 import * as firebase from 'firebase'
 // Importamos mi navigation aquí para que cuando finalice de registrarse, se redireccione al home
 // import { useNavigation } from '@react-navigation/native'
-
 
 export const RegisterForm = (props) => {
   // De los props que recibe este componente haremos destructuring para recuperar el prop toastRef
@@ -18,6 +19,8 @@ export const RegisterForm = (props) => {
   const [showPassword, setShowPassword] = useState(true)
   // Este será el estado par aalamacenar la data que se está introduciendo por el form
   const [formData, setFormData] = useState(defaultFormValue)
+  // Crearemos un nuevo estado local para declarar cuando será visible y cuando no el loading al momento de crear la cuenta, por defecto será false
+  const [loading, setLoading] = useState(false)
 
   // Vamos a crear un hook de navigation para recuperar nuestro sistema de navegación
   // const navigation = useNavigation()
@@ -29,29 +32,31 @@ export const RegisterForm = (props) => {
       // Entramos en la propiedad currecnt que contiene las propiedades como funcionarán mi toast y la función show para mostrar el texto
       toastRef.current.show('No olvides llenar todos los campos')
 
-    }
-    // Si validation email devuelve false, el email no será valido    
-    else if (!validateEmail(formData.email)) {
+      // Si validation email devuelve false, el email no será valido
+    } else if (!validateEmail(formData.email)) {
       // console.log('El email no es correcto');
       toastRef.current.show('El email no es correcto')
-    } // Vamos a validar la longitud de caracteres mayor a 6  de la password con size
-    else if (size(formData.password) < 6) {
+
+      // Vamos a validar la longitud de caracteres mayor a 6  de la password con size
+    } else if (size(formData.password) < 6) {
       // console.log('La contraseña debe tener mínimo 6 caracteres');
       toastRef.current.show('La contraseña debe tener mínimo 6 caracteres')
-    }
-    // Si no hay problema con ningun campo,haremos el registro en firebase
-    else {
-      //Llamamos a firebasem con la función de autenticación y llamamos al metodo de crear un usuario con email y contraseña pasandole los datos que hemos guardado
+
+      // Si no hay problema con ningun campo,haremos el registro en firebase
+    } else {
+      // Sobre escribimos el estado del loading
+      setLoading(true)
+      // Llamamos a firebase con la función de autenticación y llamamos al metodo de crear un usuario con email y contraseña pasandole los datos que hemos guardado
       firebase
         .auth()
         .createUserWithEmailAndPassword(formData.email, formData.password)
         // Esta autenticación devuelve una promesa, así que la resolveremos
-        .then(response => {
-          console.log('Logged');
-
+        .then(() => {
+          setLoading(false)
         })
         // Si da error, trataremos el error con un .catch
-        .catch(err => {
+        .catch(() => {
+          setLoading(false)
           // Imprimimos el error
           toastRef.current.show('El email ya está en uso, prueba con otro')
         })
@@ -97,16 +102,20 @@ export const RegisterForm = (props) => {
         buttonStyle={styles.btnRegister}
         onPress={onSubmit}
       />
+      {/* Aqui llamamos al componente loading y será visible cuando el state sea true */}
+      <Loading isVisible={loading} />
     </View>
   )
 }
-function defaultFormValue() {
+
+function defaultFormValue () {
   return {
     email: '',
     nickname: '',
     password: ''
   }
 }
+
 const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
@@ -117,12 +126,6 @@ const styles = StyleSheet.create({
   inputRegisterForm: {
     width: '100%',
     marginTop: 20
-    // backgroundColor: '#F1F3F4'
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.8,
-    // shadowRadius: 2,
-    // elevation: 1
   },
   btnContainerRegister: {
     marginTop: 20,
