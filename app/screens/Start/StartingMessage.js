@@ -5,6 +5,7 @@ import { StyleSheet, View, ScrollView, Text, Image } from 'react-native'
 import { Button } from 'react-native-elements'
 // Usare este hook que me provee react navigation para la funcionalidad del botón de 'empezar'
 // import { useNavigation } from '@react-navigation/native'
+import { Video } from 'expo-av'
 
 export const StartingMessage = ({ navigation }) => {
   // Usamos el hook useNavigation aquí
@@ -12,14 +13,25 @@ export const StartingMessage = ({ navigation }) => {
   // console.log(navigation)
 
   return (
-    <ScrollView centerContent style={styles.viewBody}>
-      <Image
+    // <ScrollView centerContent style={styles.viewBody}>
+    <View style={styles.viewBody}>
+      <View style={styles.containerVideo}>
+        <Video
+          source={require('../../../assets/videos/logo-animation-chuff.mp4')}
+          isMuted
+          resizeMode='cover'
+          shouldPlay
+          isLooping
+          style={{ width: 400, height: 400 }}
+        />
+      </View>
+      {/* <Image
         source={require('../../../assets/img/LogoChuff.png')}
         resizeMode='contain'
         style={styles.image}
-      />
-      <Text style={styles.title}>CHÜFF - Comamos Juntos</Text>
-      <Text style={styles.description}>La mejor comunidad para comer en familia! Comparte recetas, crea eventos y come rico!</Text>
+      /> */}
+      {/* <Text style={styles.title}>CHÜFF - Comamos Juntos</Text> */}
+      {/* <Text style={styles.description}>La mejor comunidad para comer en familia! Comparte recetas, crea eventos y come rico!</Text> */}
       <View style={styles.viewBtn}>
         {/* <Button
           title='Empezar'
@@ -32,26 +44,38 @@ export const StartingMessage = ({ navigation }) => {
 
         /> */}
         <Button
-          title='Login' onPress={() => navigation.push('login')} buttonStyle={styles.btnStyle} containerStyle={styles.btnContainer}
+          title='Iniciar Sesión' onPress={() => navigation.push('login')} buttonStyle={styles.btnStyle} containerStyle={styles.btnContainer}
         />
         <Button
-          title='Register' onPress={() => navigation.push('register')} buttonStyle={styles.btnStyle} containerStyle={styles.btnContainer}
+          title='Registrarse' onPress={() => navigation.push('register')} buttonStyle={styles.btnStyle} containerStyle={styles.btnContainer}
         />
       </View>
-    </ScrollView>
+      <View style={styles.containerTextBeta}>
+        <Text style={styles.textBeta}>BETA</Text>
+      </View>
+    </View>
+    // </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   viewBody: {
-    paddingTop: 30,
+    // paddingTop: 10,
     backgroundColor: '#fff'
+
   },
-  image: {
-    height: 300,
-    width: '100%',
-    marginBottom: 40
+  containerVideo: {
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: 'red',
+    height: '50%'
   },
+  // image: {
+  //   height: 300,
+  //   width: '100%',
+  //   marginBottom: 40
+  // },
   title: {
     fontWeight: 'bold',
     fontSize: 19,
@@ -63,33 +87,36 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   viewBtn: {
-    flex: 1,
-
+    // flex: 1,
+    // backgroundColor: 'red',
     alignItems: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
+    height: '40%'
   },
   btnStyle: {
-    backgroundColor: '#454648'
+    backgroundColor: '#454648',
+    // height: '90%'
+    padding: 15,
+    borderRadius: 5
   },
   btnContainer: {
     width: '70%',
-    margin: 20
+    // height: 900
+    margin: 15,
+    // borderRadius: 100
+    alignContent: 'center',
+    justifyContent: 'center'
+  },
+  containerTextBeta: {
+    // backgroundColor: 'green',
+    height: '10%',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 30
+  },
+  textBeta: {
+    fontSize: 22,
+    letterSpacing: 10,
+    color: '#454648'
   }
-
 })
-// import React from 'react'
-// import { View, Text, Button } from 'react-native'
-
-// export const StartingMessage = ({ navigation }) => {
-//   return (
-//     <View>
-//       <Text>Start...</Text>
-//       <Button
-//         title='Login' onPress={() => navigation.push('login')}
-//       />
-//       <Button
-//         title='Register' onPress={() => navigation.push('register')}
-//       />
-//     </View>
-//   )
-// }

@@ -4,9 +4,13 @@ import { StyleSheet } from 'react-native'
 import Profile from '../screens/Profile/Profile'
 const Stack = createStackNavigator()
 
-export default function ProfileStack() {
+export default function ProfileStack () {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
       <Stack.Screen
         name='profile'
         component={Profile}

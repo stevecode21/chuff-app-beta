@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, TextInput } from 'react-native'
 import { Input, Icon, Button } from 'react-native-elements'
 import { isEmpty } from 'lodash'
+// Importo firebase para la autenticación de login
+import * as firebase from 'firebase'
 // Importamos la función que se ocupa de validar email
 import { validateEmail } from '../../utils/Validations'
+import Loading from '../Loading/Loading'
 
 export default function LoginForm (props) {
   const { toastRef } = props
@@ -11,6 +14,8 @@ export default function LoginForm (props) {
   const [showPassword, setShowPassword] = useState(false)
   // Estado para almacenar el formData del login
   const [formData, setFormData] = useState(defaultFormValue())
+  // State del loading
+  const [loading, setLoading] = useState(false)
   // Función creada para el onChange para actualizar nuestro estado, e me devuelve el valor que se está ingresando en el input y type el tipo de dato del input
   const onChange = (e, type) => {
     // console.log(e.nativeEvent.text)
@@ -26,18 +31,33 @@ export default function LoginForm (props) {
     } else if (!validateEmail(formData.email)) {
       toastRef.current.show('El correo electrónico no es correcto')
     } else {
-      console.log('ok')
+      setLoading(true)
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(formData.email, formData.password)
+        .then(() => {
+          setLoading(false)
+        })
+        .catch(() => {
+          setLoading(false)
+          toastRef.current.show('Email o contraseña incorrecta')
+        })
     }
   }
 
   return (
     <View style={styles.formContainerLogin}>
-      <Input
+      <TextInput
+        style={styles.inputFormLogin}
+        placeholder='E-mail'
+        onChange={(e) => onChange(e, 'email')}
+      />
+      {/* <Input
         placeholder='E-mail'
         containerStyle={styles.inputFormLogin}
         // Aqui le estamos pasando al onChange el evento que lo recuperaremos de la función flecha en el que está siendo envuelto y el tipo de dato
         onChange={(e) => onChange(e, 'email')}
-      />
+      /> */}
       <Input
         placeholder='Password'
         containerStyle={styles.inputFormLogin}
@@ -60,6 +80,7 @@ export default function LoginForm (props) {
         buttonStyle={styles.btnLogin}
         onPress={onSubmit}
       />
+      <Loading isVisible={loading} />
     </View>
   )
 }
@@ -80,7 +101,21 @@ const styles = StyleSheet.create({
   },
   inputFormLogin: {
     width: '100%',
-    marginTop: 20
+    height: 59,
+    borderRadius: 12,
+    marginTop: 20,
+    backgroundColor: '#F1F3F4',
+    paddingLeft: 30,
+    fontSize: 14,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 6
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+
+    elevation: 12
   },
   btnContainerLogin: {
     marginTop: 20,

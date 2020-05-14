@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#000',
     textTransform: 'uppercase',
-    marginTop: 10
+    marginTop: 10,
+    fontSize: 15
   }
 })

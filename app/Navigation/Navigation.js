@@ -42,6 +42,7 @@ export default function Navigation () {
           name='home'
           component={HomeStack}
           options={{ title: 'Home' }}
+
         />
         <Tab.Screen
           name='recipes'
