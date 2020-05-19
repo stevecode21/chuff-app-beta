@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, TextInput } from 'react-native'
-import { Input, Icon, Button } from 'react-native-elements'
+import { StyleSheet, View, TextInput, Text } from 'react-native'
+import { Icon, Button } from 'react-native-elements'
 import { isEmpty } from 'lodash'
 // Importo firebase para la autenticación de login
 import * as firebase from 'firebase'
@@ -47,20 +47,17 @@ export default function LoginForm (props) {
 
   return (
     <View style={styles.formContainerLogin}>
+
+      <Text style={styles.titleLogin}>Iniciar Sesión</Text>
+
       <TextInput
         style={styles.inputFormLogin}
         placeholder='E-mail'
         onChange={(e) => onChange(e, 'email')}
       />
-      {/* <Input
-        placeholder='E-mail'
-        containerStyle={styles.inputFormLogin}
-        // Aqui le estamos pasando al onChange el evento que lo recuperaremos de la función flecha en el que está siendo envuelto y el tipo de dato
-        onChange={(e) => onChange(e, 'email')}
-      /> */}
-      <Input
-        placeholder='Password'
-        containerStyle={styles.inputFormLogin}
+      <TextInput
+        style={styles.inputFormLogin}
+        placeholder='Contraseña'
         onChange={(e) => onChange(e, 'password')}
         password
         secureTextEntry={!showPassword}
@@ -96,12 +93,23 @@ const styles = StyleSheet.create({
   formContainerLogin: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 30
+    justifyContent: 'flex-start',
+    // backgroundColor: 'red',
+    width: '100%',
+    // height: '100%',
+    paddingLeft: 20,
+    paddingRight: 20
+
+  },
+  titleLogin: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    letterSpacing: 5,
+    color: '#454648'
   },
   inputFormLogin: {
-    width: '100%',
-    height: 59,
+    width: '95%',
+    height: 49,
     borderRadius: 12,
     marginTop: 20,
     backgroundColor: '#F1F3F4',
@@ -109,24 +117,29 @@ const styles = StyleSheet.create({
     fontSize: 14,
     shadowColor: '#000',
     shadowOffset: {
-      width: 0,
-      height: 6
+      width: -12,
+      height: -12
     },
-    shadowOpacity: 0.37,
+    shadowOpacity: 0.80,
     shadowRadius: 7.49,
 
-    elevation: 12
+    elevation: 5
   },
   btnContainerLogin: {
-    marginTop: 20,
-    width: '95%'
+    width: '95%',
+    alignContent: 'center',
+    justifyContent: 'center',
+    marginTop: 40
   },
   btnLogin: {
     backgroundColor: '#454648',
-    height: 46
+    // height: '90%'
+    padding: 15,
+    borderRadius: 5
   },
   iconRight: {
     color: '#C1C1C1',
     fontSize: 20
   }
+
 })

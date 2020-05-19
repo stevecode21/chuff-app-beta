@@ -1,62 +1,99 @@
 import React, { useRef } from 'react'
 import { StyleSheet, View, ScrollView, Text } from 'react-native'
 // Esto será una linea para dividir una cosa de la otra
-import { Divider } from 'react-native-elements'
+// import { Divider } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Toast from 'react-native-easy-toast'
 import ImageStart from '../../components/ImageStart/ImageStart'
 import LoginForm from '../../components/Start/LoginForm'
-
+import { BetaText } from '../../components/BetaText/BetaText'
 export default function Login () {
   const toastRef = useRef()
   return (
-    <ScrollView style={styles.viewBody}>
-      <ImageStart />
+    // <KeyboardAwareScrollView>
+    <View style={styles.viewBody}>
+      {/* <KeyboardAwareScrollView style={styles.viewBody}> */}
+      <View style={styles.containerImage}>
+        <ImageStart />
+      </View>
       <View style={styles.viewContainerLogin}>
         <LoginForm toastRef={toastRef} />
         <Register />
       </View>
-      <Divider style={styles.dividerLine} />
-      <Text>Social Login</Text>
-      <Text>Beta</Text>
+      <View style={styles.viewContainerBetaText}>
+        <BetaText />
+      </View>
       <Toast ref={toastRef} position='top' opacity={0.9} />
-    </ScrollView>
+      {/* </KeyboardAwareScrollView> */}
+    </View>
+    // {/* </KeyboardAwareScrollView> */}
   )
 }
 /* Por ahora crearemos un componente interno para la creación de la cuenta */
 function Register () {
   const navigation = useNavigation()
   return (
-    <Text style={styles.textAnnouncementRegister}>
-      ¿No tienes cuenta?{' '}
-      <Text
-        style={styles.btnAnnouncementRegister}
-        onPress={() => navigation.navigate('register')}
-      >
-        Crear cuenta
+    <>
+      <Text style={styles.textAnnouncementRegister}>
+        ¿No tienes cuenta?{' '}
+
+        <Text
+          style={styles.btnAnnouncementRegister}
+          onPress={() => navigation.navigate('register')}
+        >
+          Crear cuenta
+        </Text>
       </Text>
-    </Text>
+    </>
+
   )
 }
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+    // height: '100%'
+  },
   viewBody: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    flex: 1,
+    minHeight: '100%'
+  },
+  containerImage: {
+    // backgroundColor: 'yellow',
+    // height: '35%',
+    justifyContent: 'center'
+    // alignContent: 'center'
   },
   viewContainerLogin: {
-    marginRight: 40,
-    marginLeft: 40
+    // backgroundColor: 'blue',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // flexDirection: 'column',
+    width: '100%',
+    height: '55%'
+    // paddingRight: '10%',
+    // paddingLeft: '10%',
+    // paddingTop: '5%'
+  },
+  containerTextAnnouncementRegister: {
+    // backgroundColor: 'green',
+    width: '100%',
+
+    paddingTop: 25
+
   },
   textAnnouncementRegister: {
-    marginTop: 15,
-    marginLeft: 10,
-    marginRight: 10
+    fontWeight: '100'
   },
   btnAnnouncementRegister: {
     color: '#454648',
     fontWeight: 'bold'
   },
-  dividerLine: {
-    backgroundColor: 'rgba(69, 70, 72, 0.1)',
-    margin: 40
+  viewContainerBetaText: {
+    // backgroundColor: 'green',
+    height: '10%',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })

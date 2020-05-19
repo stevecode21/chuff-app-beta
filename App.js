@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-
-import Navigation from './app/Navigation/Navigation'
-import StartStack from './app/ScreenStacks/StartStack'
+// Con este componente se soluciona el problema de long time for a period time
+import { YellowBox } from 'react-native'
 // Importamos firebase para la autenticación
 import * as firebase from 'firebase'
 // Importaremos el componente Loading
 import Loading from './app/components/Loading/Loading'
 // Importamos la configuración de firebase
 import { firebaseApp } from './app/utils/firebase'
+// Traigo base 64 para solucionar el problema de 'variable atob' que se genera al almacenar al firestore
+import { decode, encode } from 'base-64'
+
+import Navigation from './app/Navigation/Navigation'
+import StartStack from './app/ScreenStacks/StartStack'
+YellowBox.ignoreWarnings(['Setting a timer'])
+
+// Solucionamos el encode y decode para la solicitud
+if (!global.btoa) global.btoa = encode
+if (!global.atob) global.atob = decode
 
 export default function App () {
   // Crearemos el state para validar si mi usuario está logueado o no
