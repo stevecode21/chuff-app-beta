@@ -15,7 +15,6 @@ export default function RecipesStack () {
       <Stack.Screen
         name='recipes'
         component={Recipes}
-        options={{ title: 'Tus recetas' }}
       />
       <Stack.Screen
         name='add-recipe'

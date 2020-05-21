@@ -11,6 +11,7 @@ import HomeStack from '../ScreenStacks/HomeStack'
 import RecipesStack from '../ScreenStacks/RecipesStack'
 import CalendarStack from '../ScreenStacks/CalendarStack'
 import ProfileStack from '../ScreenStacks/ProfileStack'
+import AddButton from './AddButton'
 
 // Crearemos el componente
 const Tab = createBottomTabNavigator()
@@ -24,10 +25,14 @@ export default function Navigation () {
         initialRouteName='home'
         tabBarOptions={{
         // Este será el color que tendrá mis botones del tab cuando no estén seleccionados
-          inactiveTintColor: '#646464',
+          inactiveTintColor: '#FFF',
           // Este será el color del menu está activado
           activeTintColor: '#00A680',
-          showLabel: false
+          showLabel: false,
+          style: {
+            height: 55,
+            backgroundColor: '#454648'
+          }
         }}
         // Esta propiedad recibe las rutas y por las props recibimos
         screenOptions={({ route }) => ({
@@ -41,23 +46,27 @@ export default function Navigation () {
         <Tab.Screen
           name='home'
           component={HomeStack}
-          options={{ title: 'Home' }}
 
         />
         <Tab.Screen
           name='recipes'
           component={RecipesStack}
-          options={{ title: 'Recetas' }}
+
+        />
+        <Tab.Screen
+          name='add-button'
+          component='false'
+
         />
         <Tab.Screen
           name='events'
           component={CalendarStack}
-          options={{ title: 'Calendario' }}
+
         />
         <Tab.Screen
           name='profile'
           component={ProfileStack}
-          options={{ title: 'Profile' }}
+
         />
 
       </Tab.Navigator>
@@ -75,19 +84,23 @@ function screenOptions (route, color) {
   switch (route.name) {
     case 'home':
       // Esta variable guardará el alias de mi Icon
-      iconName = 'home-variant'
+      iconName = 'home-variant-outline'
       break
     case 'recipes':
       // Esta variable guardará el alias de mi Icon
-      iconName = 'food-fork-drink'
+      iconName = 'cookie'
+      break
+    case 'add-button':
+      // Esta variable guardará el alias de mi Icon
+      iconName = 'plus'
       break
     case 'events':
       // Esta variable guardará el alias de mi Icon
-      iconName = 'calendar-range'
+      iconName = 'calendar-text-outline'
       break
     case 'profile':
       // Esta variable guardará el alias de mi Icon
-      iconName = 'account-outline'
+      iconName = 'account'
       break
     default:
       break

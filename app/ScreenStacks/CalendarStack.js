@@ -9,12 +9,21 @@ const Stack = createStackNavigator()
 export default function CalendarStack () {
   return (
     // Este será el stack que contenga mi screen
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
       {/* Añadimos cada una de nuestras páginas de nuestra screen */}
       <Stack.Screen
         name='Calendar'
         component={Calendar}
-        options={{ title: 'Calendario' }}
+
+      />
+      <Stack.Screen
+        name='add-event'
+        component={Calendar}
+
       />
     </Stack.Navigator>
   )

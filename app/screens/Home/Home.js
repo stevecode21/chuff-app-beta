@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { Button } from 'react-native-elements'
 
-export default function Home () {
+export default function Home ({ navigation }) {
   return (
     <View style={styles.containerHome}>
       <View style={styles.containerShortcuts}>
@@ -14,7 +14,9 @@ export default function Home () {
             titleStyle={styles.textStyleShortCuts}
             containerStyle={styles.btnContainer}
           /> */}
-          <TouchableOpacity style={styles.touchableAgenda}>
+          <TouchableOpacity
+            style={styles.touchableAgenda} onPress={() => console.log('Agenda')}
+          >
             <View style={styles.viewButton}>
               <Text style={styles.textShotcuts}>Agenda</Text>
             </View>
@@ -24,7 +26,7 @@ export default function Home () {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.touchableRecipes}>
+          <TouchableOpacity style={styles.touchableRecipes} onPress={() => console.log('Recetas')}>
             <View style={styles.viewButton}>
               <Text style={styles.textShotcuts}>Recetas</Text>
             </View>
@@ -34,7 +36,7 @@ export default function Home () {
             />
 
           </TouchableOpacity>
-          <TouchableOpacity style={styles.touchableEvents}>
+          <TouchableOpacity style={styles.touchableEvents} onPress={() => console.log('Eventos')}>
             <View style={styles.viewButton}>
               <Text style={styles.textShotcuts}>Eventos</Text>
             </View>
@@ -43,7 +45,7 @@ export default function Home () {
               style={styles.image}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.touchablePastEvents}>
+          <TouchableOpacity style={styles.touchablePastEvents} onPress={() => console.log('Histórico')}>
             <View style={styles.viewButton}>
               <Text style={styles.textShotcuts}>Histórico</Text>
             </View>

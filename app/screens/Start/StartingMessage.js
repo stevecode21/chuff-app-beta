@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
 // Importo un Button desde React native elements
 import { Button } from 'react-native-elements'
 
@@ -8,6 +8,7 @@ import { BetaText } from '../../components/BetaText/BetaText'
 
 export const StartingMessage = ({ navigation }) => {
   return (
+
     <View style={styles.viewBody}>
       <View style={styles.containerVideo}>
         <Video
@@ -36,31 +37,37 @@ export const StartingMessage = ({ navigation }) => {
         />
 
       </View>
-      <BetaText />
+      <View style={styles.betaText}>
+        <BetaText />
+      </View>
     </View>
+
   )
 }
 
 const styles = StyleSheet.create({
   viewBody: {
-    backgroundColor: '#FFFFFF',
-    height: '100%'
+    backgroundColor: '#fff',
+    flex: 1,
+    alignContent: 'center'
   },
   containerVideo: {
+    // backgroundColor: 'blue',
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
-    height: '50%'
+    flex: 1
   },
   videoStarting: {
     width: '100%',
     height: '100%'
   },
   viewBtn: {
+    // backgroundColor: 'green',
     alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'center',
-    height: '40%'
+    flex: 1
   },
   btnStyle: {
     backgroundColor: '#454648',
@@ -72,5 +79,11 @@ const styles = StyleSheet.create({
     margin: 15,
     alignContent: 'center',
     justifyContent: 'center'
+  },
+  betaText: {
+    // backgroundColor: 'yellow',
+    alignContent: 'center',
+    justifyContent: 'center',
+    paddingBottom: 10
   }
 })

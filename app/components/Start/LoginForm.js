@@ -7,6 +7,8 @@ import * as firebase from 'firebase'
 // Importamos la función que se ocupa de validar email
 import { validateEmail } from '../../utils/Validations'
 import Loading from '../Loading/Loading'
+import { Col, Row, Grid } from 'react-native-easy-grid'
+import { Container, Header, Content, Form, Item, Input } from 'native-base'
 
 export default function LoginForm (props) {
   const { toastRef } = props
@@ -46,39 +48,53 @@ export default function LoginForm (props) {
   }
 
   return (
-    <View style={styles.formContainerLogin}>
 
-      <Text style={styles.titleLogin}>Iniciar Sesión</Text>
+    <Container>
+      <Content>
+        <Form style={styles.formContainerLogin}>
+          {/* <Col style={{ backgroundColor: 'blue' }}> */}
+          {/* <View style={styles.formContainerLogin}> */}
 
-      <TextInput
-        style={styles.inputFormLogin}
-        placeholder='E-mail'
-        onChange={(e) => onChange(e, 'email')}
-      />
-      <TextInput
-        style={styles.inputFormLogin}
-        placeholder='Contraseña'
-        onChange={(e) => onChange(e, 'password')}
-        password
-        secureTextEntry={!showPassword}
-        rightIcon={
-          <Icon
-            type='material-community'
-            name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-            iconStyle={styles.iconRight}
-            // Un evento on press para que el estado se cambie con el valor diferente al que tenga actualmente showPassword
-            onPress={() => setShowPassword(!showPassword)}
+          <Text style={styles.titleLogin}>Iniciar Sesión</Text>
+
+          <Input
+            style={styles.inputFormLogin}
+            placeholder='E-mail'
+            onChange={(e) => onChange(e, 'email')}
+            placeholderTextColor='gray'
           />
-        }
-      />
-      <Button
-        title='Iniciar Sesión'
-        containerStyle={styles.btnContainerLogin}
-        buttonStyle={styles.btnLogin}
-        onPress={onSubmit}
-      />
-      <Loading isVisible={loading} />
-    </View>
+
+          <Input
+            underline={false}
+            style={styles.inputFormLogin}
+            placeholder='Contraseña'
+            placeholderTextColor='gray'
+            onChange={(e) => onChange(e, 'password')}
+            password
+            secureTextEntry={!showPassword}
+            rightIcon={
+              <Icon
+                type='material-community'
+                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                iconStyle={styles.iconRight}
+                // Un evento on press para que el estado se cambie con el valor diferente al que tenga actualmente showPassword
+                onPress={() => setShowPassword(!showPassword)}
+              />
+            }
+          />
+          <Button
+            title='Iniciar Sesión'
+            containerStyle={styles.btnContainerLogin}
+            buttonStyle={styles.btnLogin}
+            onPress={onSubmit}
+          />
+          <Loading isVisible={loading} />
+          {/* </Row> */}
+          {/* </Col> */}
+        </Form>
+      </Content>
+    </Container>
+
   )
 }
 const defaultFormValue = () => {
@@ -91,7 +107,7 @@ const defaultFormValue = () => {
 }
 const styles = StyleSheet.create({
   formContainerLogin: {
-    flex: 1,
+    // flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
     // backgroundColor: 'red',
@@ -108,7 +124,8 @@ const styles = StyleSheet.create({
     color: '#454648'
   },
   inputFormLogin: {
-    width: '95%',
+    borderColor: 'red',
+    width: '90%',
     height: 49,
     borderRadius: 12,
     marginTop: 20,
