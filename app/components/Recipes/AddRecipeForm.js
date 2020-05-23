@@ -8,6 +8,7 @@ import firebaseApp from '../../utils/firebase'
 
 // Importo el firestore de mi app
 import 'firebase/firestore'
+import { Container } from 'native-base'
 
 const db = firebase.firestore(firebaseApp)
 export default function AddRecipeForm (props) {
@@ -54,9 +55,17 @@ export default function AddRecipeForm (props) {
   }
 
   return (
-    <ScrollView style={styles.scrollView}>
-      <View styles={styles.viewBody}>
-        <Text>Crear Receta</Text>
+  // <ScrollView style={styles.scrollView}>
+  // {/* <Container> */}
+  // <View styles={styles.viewBody}>
+
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View styles={{ flex: 1 }}>
+        {/* <View style={styles.containerTitle}> */}
+        <Text style={styles.title}>Crear Receta</Text>
+        {/* </View> */}
+        {/* <View style={styles.containerForm}> */}
+        {/* <Text>Form</Text> */}
         <FormAdd
           setRecipeName={setRecipeName}
           setIngredients={setIngredients}
@@ -66,13 +75,22 @@ export default function AddRecipeForm (props) {
           toastRef={toastRef}
           addRecipe={addRecipe}
         />
-        <Button
-          title='Crear'
-          onPress={addRecipe}
-          containerStyle={styles.createButton}
-        />
+        {/* </View> */}
+        <View style={styles.containerBtn}>
+          <Button
+            title='Crear'
+            onPress={addRecipe}
+            containerStyle={styles.createButtonContainer}
+            buttonStyle={styles.createButton}
+            accessibilityLabel='Press'
+          />
+        </View>
       </View>
     </ScrollView>
+
+  // </View>
+  // {/* </Container> */}
+  // </ScrollView>
   )
 }
 function FormAdd (props) {
@@ -112,18 +130,22 @@ function FormAdd (props) {
     setSteps(values)
   }
   return (
-    <View style={styles.viewForm}>
-      <TextInput
-        placeholder='Nombra tu receta'
-        style={styles.inputFormName}
-        onChange={e => setRecipeName(e.nativeEvent.text)}
-      />
-      <View>
-        <Text style={styles.subTitles}>Ingredientes</Text>
+    <View contentContainerStyle={{ flexGrow: 1 }}>
+      <View style={styles.containerName}>
+        <TextInput
+          placeholder='Nombra tu receta'
+          style={styles.inputFormName}
+          onChange={e => setRecipeName(e.nativeEvent.text)}
+        />
+      </View>
+      <View style={styles.containerFormIngredients}>
+        <View style={styles.containerSubtitles}>
+          <Text style={styles.subTitles}>Ingredientes</Text>
+        </View>
         {/* <ItemRecipe multiline={false} /> */}
         {ingredients.map((ingredient, idx) => {
           return (
-            <View style={styles.inputs} key={`${ingredient}-${idx}`}>
+            <View style={styles.containerInputs} key={`${ingredient}-${idx}`}>
 
               <TextInput
                 style={styles.textInputsIngredients}
@@ -131,18 +153,23 @@ function FormAdd (props) {
                 // value={ingredient.value || ''}
                 onChange={e => handleChange(idx, e.nativeEvent.text)}
               />
+
               <Button title='x' onPress={() => handleRemove(idx)} containerStyle={styles.deleteButton} buttonStyle={styles.deleteButtonBtn} />
 
             </View>
           )
         })}
-        <Button title='+' onPress={() => handleAdd()} />
+        <View style={styles.containerAddBtn}>
+          <Button title='+' onPress={() => handleAdd()} />
+        </View>
       </View>
-      <View>
-        <Text style={styles.subTitles}>Preparación</Text>
+      <View style={styles.containerFormIngredients}>
+        <View style={styles.containerSubtitles}>
+          <Text style={styles.subTitles}>Preparación</Text>
+        </View>
         {steps.map((step, idx) => {
           return (
-            <View key={`${step}-${idx}`} style={styles.inputs}>
+            <View key={`${step}-${idx}`} style={styles.containerInputs}>
 
               <TextInput
                 style={styles.textInputsIngredients}
@@ -151,64 +178,96 @@ function FormAdd (props) {
                 onChange={e => handleChangeStep(idx, e.nativeEvent.text)}
                 multiline
               />
-              <Button title='x' onPress={() => handleRemoveStep(idx)} containerStyle={styles.deleteButton} buttonStyle={styles.deleteButtonBtn} />
 
+              <Button title='x' onPress={() => handleRemoveStep(idx)} containerStyle={styles.deleteButton} buttonStyle={styles.deleteButtonBtn} />
             </View>
+
           )
         })}
-        <Button title='+' onPress={() => handleAddStep()} />
+        <View style={styles.containerAddBtn}>
+          <Button title='+' onPress={() => handleAddStep()} />
+        </View>
       </View>
     </View>
   )
 }
 const styles = StyleSheet.create({
-  // scrollView: {
-  //   height: '100%',
-  //   paddingTop: 50,
-  //   backgroundColor: '#fff'
-  // },
-  viewBody: {
-    flex: 1
-    // height: '100%'
+
+  containerTitle: {
+    // backgroundColor: 'red',
+    height: '20%',
+    justifyContent: 'center',
+    paddingLeft: 50
   },
-  viewForm: {
-    padding: 50
+  title: {
+    fontSize: 25
+    // fontWeight: 'bold'
+  },
+  containerForm: {
+    // backgroundColor: 'yellow',
+    height: '70%'
+    // paddingLeft: 40,
+    // paddingRight: 40,
+    // paddingTop: 20
+  },
+  containerName: {
+    // backgroundColor: 'green',
+    padding: 30
+
   },
   inputFormName: {
-    backgroundColor: '#F1F3F4',
-    marginBottom: 10,
-    fontSize: 24,
-    fontWeight: 'bold'
+    fontSize: 20
+  },
+  containerFormIngredients: {
+    // backgroundColor: 'blue'
+    // padding: 30
+  },
+  containerSubtitles: {
+    // backgroundColor: 'yellow',
+    margin: 20
   },
   subTitles: {
-    marginTop: 20
+    fontSize: 18
   },
-  inputs: {
+  containerInputs: {
+    backgroundColor: 'red',
+    marginLeft: 40,
+    marginRight: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
-    marginBottom: 20
+    padding: 10
   },
   textInputsIngredients: {
-    overflow: 'scroll',
-    width: '90%'
-    // backgroundColor: 'red'
+    // backgroundColor: 'yellow',
+    width: '80%',
+    alignItems: 'center'
+    // padding: 4
   },
   deleteButton: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    width: 40
+    // height: 20
+
   },
   deleteButtonBtn: {
-    borderRadius: 50,
-    width: 34,
-    height: 34,
+    borderRadius: 50
+  },
+  containerBtn: {
+    backgroundColor: 'green',
+    height: '10%',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 0
+  },
+  containerAddBtn: {
+    backgroundColor: 'green',
+    margin: 10
+  },
+  createButtonContainer: {
+    width: '70%'
   },
   createButton: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10
+
   }
+
 })

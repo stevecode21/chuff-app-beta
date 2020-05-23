@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Input, Icon, Button } from 'react-native-elements'
+import { StyleSheet, View, TextInput } from 'react-native'
+import { Input, Icon, Button, Text } from 'react-native-elements'
 // Importo mi loading para que mientras firebase registra el usuario haya un loading
 import Loading from '../Loading/Loading'
 // Importamos la validación de mi email
@@ -69,41 +69,50 @@ export const RegisterForm = (props) => {
     setFormData({ ...formData, [type]: e.nativeEvent.text })
   }
   return (
-    <View style={styles.formContainer}>
-      <Input
-        placeholder='E-mail'
-        containerStyle={styles.inputRegisterForm}
-        onChange={e => onChange(e, 'email')}
-      />
-      <Input
-        placeholder='Nickname'
-        containerStyle={styles.inputRegisterForm}
-        onChange={e => onChange(e, 'nickname')}
-      />
-      <Input
-        placeholder='Contraseña'
-        containerStyle={styles.inputRegisterForm}
-        password
-        secureTextEntry={showPassword}
-        onChange={e => onChange(e, 'password')}
-        rightIcon={
-          <Icon
-            type='material-community'
-            name={showPassword ? 'eye-outline' : 'eye-off-outline'}
-            iconStyle={styles.iconRight}
-            // Actualizamos al valor contrario de showpassword,  '!'-> Nos devolverá el valor contrario
-            onPress={() => setShowPassword(!showPassword)}
-          />
-        }
-      />
-      <Button
-        title='Crear cuenta'
-        containerStyle={styles.btnContainerRegister}
-        buttonStyle={styles.btnRegister}
-        onPress={onSubmit}
-      />
+    <View style={styles.formContainerRegister}>
+      <View style={styles.containerTitle}>
+        <Text style={styles.titleRegister}>Registrate</Text>
+      </View>
+      <View style={styles.containerInputs}>
+        <TextInput
+          placeholder='E-mail'
+          style={styles.inputRegisterForm}
+          onChange={e => onChange(e, 'email')}
+        />
+        <TextInput
+          placeholder='Nickname'
+          style={styles.inputRegisterForm}
+          onChange={e => onChange(e, 'nickname')}
+        />
+        <TextInput
+          placeholder='Contraseña'
+          style={styles.inputRegisterForm}
+          password
+          secureTextEntry={showPassword}
+          onChange={e => onChange(e, 'password')}
+          rightIcon={
+            <Icon
+              type='material-community'
+              name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+              iconStyle={styles.iconRight}
+              // Actualizamos al valor contrario de showpassword,  '!'-> Nos devolverá el valor contrario
+              onPress={() => setShowPassword(!showPassword)}
+            />
+          }
+        />
+      </View>
+      <View style={styles.containerButton}>
+        <Button
+          title='Crear cuenta'
+          containerStyle={styles.btnContainerRegister}
+          buttonStyle={styles.btnRegister}
+          onPress={onSubmit}
+        />
+
+      </View>
       {/* Aqui llamamos al componente loading y será visible cuando el state sea true */}
-      <Loading isVisible={loading} />
+
+      {/* <Loading isVisible={loading} /> */}
     </View>
   )
 }
@@ -117,27 +126,63 @@ function defaultFormValue () {
 }
 
 const styles = StyleSheet.create({
-  formContainer: {
+  formContainerRegister: {
     flex: 1,
+    backgroundColor: '#fff',
+    marginHorizontal: 30
+
+  },
+  containerTitle: {
+    // flex: 1,
+    // backgroundColor: 'green',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 30
+    justifyContent: 'center'
+  },
+  containerInputs: {
+    flex: 4,
+    // backgroundColor: 'blue',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-evenly'
+  },
+  containerButton: {
+    flex: 1,
+    // backgroundColor: 'yellow',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  titleRegister: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    letterSpacing: 5,
+    color: '#454648'
   },
   inputRegisterForm: {
-    width: '100%',
-    marginTop: 20
+    width: '95%',
+    height: 49,
+    borderRadius: 12,
+    shadowOffset: {
+      width: -12,
+      height: -12
+    },
+    shadowOpacity: 1,
+    shadowRadius: 61,
+    shadowColor: '#000',
+    elevation: 10,
+    backgroundColor: '#F1F3F4',
+    paddingLeft: 30,
+    fontSize: 18,
+    letterSpacing: 2,
+    color: '#454648'
   },
   btnContainerRegister: {
-    marginTop: 20,
-    width: '95%'
-
+    width: '95%',
+    alignContent: 'center',
+    justifyContent: 'center'
   },
   btnRegister: {
     backgroundColor: '#454648',
-    height: 46
-  },
-  iconRight: {
-    color: '#C1C1C1',
-    fontSize: 20
+    padding: 15,
+    borderRadius: 5
   }
 })

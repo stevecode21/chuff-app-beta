@@ -2,13 +2,12 @@ import React from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
 // Importo un Button desde React native elements
 import { Button } from 'react-native-elements'
-
 import { Video } from 'expo-av'
 import { BetaText } from '../../components/BetaText/BetaText'
 
 export const StartingMessage = ({ navigation }) => {
   return (
-
+    // <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
     <View style={styles.viewBody}>
       <View style={styles.containerVideo}>
         <Video
@@ -20,9 +19,7 @@ export const StartingMessage = ({ navigation }) => {
           style={styles.videoStarting}
         />
       </View>
-
       <View style={styles.viewBtn}>
-
         <Button
           title='Iniciar Sesión'
           onPress={() => navigation.push('login')}
@@ -35,12 +32,12 @@ export const StartingMessage = ({ navigation }) => {
           buttonStyle={styles.btnStyle}
           containerStyle={styles.btnContainer}
         />
-
       </View>
-      <View style={styles.betaText}>
+      <View style={styles.betaContainer}>
         <BetaText />
       </View>
     </View>
+    // </ScrollView>
 
   )
 }
@@ -48,26 +45,27 @@ export const StartingMessage = ({ navigation }) => {
 const styles = StyleSheet.create({
   viewBody: {
     backgroundColor: '#fff',
-    flex: 1,
-    alignContent: 'center'
+    flex: 1
   },
   containerVideo: {
-    // backgroundColor: 'blue',
-    justifyContent: 'center',
-    alignContent: 'center',
+    flexDirection: 'row',
+    flex: 4,
+    marginVertical: 20
+  },
+  viewBtn: {
+    flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
+    flex: 4,
+    marginHorizontal: 30
+  },
+  betaContainer: {
+    alignContent: 'center',
+    justifyContent: 'center',
     flex: 1
   },
   videoStarting: {
-    width: '100%',
-    height: '100%'
-  },
-  viewBtn: {
-    // backgroundColor: 'green',
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyContent: 'center',
-    flex: 1
+    width: '100%'
   },
   btnStyle: {
     backgroundColor: '#454648',
@@ -76,14 +74,8 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     width: '70%',
-    margin: 15,
+    marginVertical: 30,
     alignContent: 'center',
     justifyContent: 'center'
-  },
-  betaText: {
-    // backgroundColor: 'yellow',
-    alignContent: 'center',
-    justifyContent: 'center',
-    paddingBottom: 10
   }
 })

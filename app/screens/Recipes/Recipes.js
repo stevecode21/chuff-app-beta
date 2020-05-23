@@ -20,8 +20,8 @@ export default function Recipes ({ navigation }) {
   const [startRecipes, setStartRecipes] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   // Creamos un limite de recetas que se van a traer en la primera consulta
-  const limitRecipes = 5
-
+  const limitRecipes = 10
+  const userId = firebase.auth().currentUser.uid
   // Hook efecto para preguntarle a firebase si el usuario está o no logueado
   useEffect(() => {
     firebase.auth().onAuthStateChanged((userInfo) => {
@@ -29,51 +29,61 @@ export default function Recipes ({ navigation }) {
     })
   }, [])
   // Este hook lo usaremos para el renderizado de las recetas
-  useEffect(() => {
-    const user = firebase.auth().currentUser.uid
-    // console.log(user)
+  // useEffect(() => {
+  //   // console.log(user)
 
-    // Obtenemos todos las recetas que tenemos
-    db.collection('recipes').where('createBy', '==', user).get().then((snap) => {
-      setTotalRecipes(snap.size)
-    })
-    const resultRecipes = []
-    db.collection('recipes')
-      .where('createBy', '==', user)
-      .orderBy('createAt', 'desc')
-      .limit(limitRecipes)
-      .get().then((response) => {
-        setStartRecipes(response.docs[response.docs.length - 1])
-        response.forEach((doc) => {
-          const recipe = doc.data()
-          recipe.id = doc.id
-          resultRecipes.push(recipe)
-        })
-        setRecipes(resultRecipes)
-      })
-  }, [])
+  //   // Obtenemos todos las recetas que tenemos
+  //   db.collection('recipes')
+  //     .where('createBy', '==', userId)
+  //     .get()
+  //     .then((snap) => {
+  //       setTotalRecipes(snap.size)
+  //     })
+
+  //   const resultRecipes = []
+  //   db.collection('recipes')
+  //     .where('createBy', '==', userId)
+  //     .orderBy('createAt', 'desc')
+  //     .limit(limitRecipes)
+  //     .get()
+  //     .then((response) => {
+  //       setStartRecipes(response.docs[response.docs.length - 1])
+  //       response.forEach((doc) => {
+  //         const recipe = doc.data()
+  //         recipe.id = doc.id
+  //         resultRecipes.push(recipe)
+  //       })
+  //       setRecipes(resultRecipes)
+  //     })
+  //   console.log('Recetas')
+  // }, [])
+
   const handleLoadMore = () => {
-    const resultRecipes = []
-    recipes.length < totalRecipes && setIsLoading(true)
-    db.collection('recipes')
-      .where('createBy', '==', user)
-      .orderBy('createAt', 'desc')
-      .startAfter(startRecipes.data().createAt)
-      .limit(limitRecipes)
-      .get()
-      .then(response => {
-        if (response.docs.length > 0) {
-          setStartRecipes(response.docs[response.docs.length - 1])
-        } else {
-          setIsLoading(false)
-        }
-        response.forEach((doc) => {
-          const recipe = doc.data()
-          recipe.id = doc.id
-          resultRecipes.push({ recipe })
-        })
-        setRecipes.push([...recipes, ...resultRecipes])
-      })
+    // const resultRecipes = []
+    // recipes.length < totalRecipes && setIsLoading(true)
+    // console.log(`Tus recetas son: ${recipes}`)
+
+    // db.collection('recipes')
+    //   .where('createBy', '==', userId)
+    //   .orderBy('createAt', 'desc')
+    //   .startAfter(startRecipes.data().createAt)
+    //   .limit(limitRecipes)
+    //   .get()
+    //   .then(response => {
+    //     if (response.docs.length > 0) {
+    //       setStartRecipes(response.docs[response.docs.length - 1])
+    //       console.log('Peticion realizada con exito' + response)
+    //     } else {
+    //       setIsLoading(false)
+    //     }
+    //     response.forEach((doc) => {
+    //       const recipe = doc.data()
+    //       recipe.id = doc.id
+    //       resultRecipes.push(recipe)
+    //     })
+    //     setRecipes([...recipes, ...resultRecipes])
+    //   })
+    console.log('Hola')
   }
   return (
 
@@ -93,6 +103,7 @@ export default function Recipes ({ navigation }) {
           color='#454648'
           containerStyle={styles.btnContainerAddRecipe}
           onPress={() => navigation.push('add-recipe')}
+          // onPress={() => console.log(`Total recipes: ${totalRecipes} Recipes: ${recipes.length} start Recipes: ${startRecipes}`)}
         />}
 
     </View>
@@ -102,7 +113,8 @@ export default function Recipes ({ navigation }) {
 const styles = StyleSheet.create({
   viewBody: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    padding: 50
   },
   btnContainerAddRecipe: {
     position: 'absolute',

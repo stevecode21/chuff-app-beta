@@ -8,10 +8,13 @@ export const ListRecipes = ({ recipes, handleLoadMore, isLoading }) => {
       {size(recipes) > 0 ? (
         <FlatList
           data={recipes}
-          renderItem={(recipe) => <Recipe recipe={recipe} />}
+          renderItem={(recipe) => (
+            <Recipe recipe={recipe} />
+          )}
           keyExtractor={(item, index) => index.toString()}
           onEndReachedThreshold={0.5}
-          ListFooterComponent={}
+          onEndReached={handleLoadMore}
+          ListFooterComponent={<FooterList handleLoadMore={handleLoadMore} isLoading={isLoading} />}
         />
       ) : (
         <View style={styles.loaderRecipes}>
@@ -26,6 +29,7 @@ export const ListRecipes = ({ recipes, handleLoadMore, isLoading }) => {
 function Recipe (props) {
   const { recipe } = props
   const { name, ingredients } = recipe.item
+
   const showIngredient = () => {
     return ingredients.map((ingredient, i) => {
       return (
@@ -42,42 +46,46 @@ function Recipe (props) {
       <View style={styles.viewRecipe}>
         <View>
           <Text style={styles.recipeName}>{name}</Text>
-          {showIngredient()}
+          {/* {showIngredient()} */}
         </View>
       </View>
     </TouchableOpacity>
 
   )
 }
-function FooterList(props){
-  const {isLoading } = props
-  if(isLoading){
-    return <View style={styles.loaderRecipes}><ActivityIndicator size='large'/></View>
-  } else{
+function FooterList (props) {
+  const { handleLoadMore, isLoading } = props
+  console.log(isLoading)
+
+  if (isLoading) {
+    // return <View style={styles.loaderRecipes}><ActivityIndicator size='large' /></View>
+    return <View style={styles.loaderRecipes}><Text style={styles.recipeName}>Cargando...</Text></View>
+    // return <TouchableOpacity onPress={handleLoadMore}><Text style={styles.recipeName}>Cargar mas</Text></TouchableOpacity>
+  } else {
     return (
-    <View style={styles.endOfRecipes}>
-      <Text>¡Esas son todas!</Text>
-    </View>
+      <View style={styles.endOfRecipes}>
+        <Text>¡Esas son todas!</Text>
+      </View>
     )
   }
 }
 const styles = StyleSheet.create({
   loaderRecipes: {
-    marginTop: 40,
-    marginBottom: 10,
+    marginTop: 10,
+    marginBottom: 80,
     marginRight: 30,
     alignItems: 'center'
   },
   viewRecipe: {
     flexDirection: 'row',
-    margin: 10
+    padding: 30
   },
   recipeName: {
     fontWeight: 'bold'
   },
-  endOfRecipes:{
+  endOfRecipes: {
     marginTop: 10,
-    marginBottom:20,
+    marginBottom: 80,
     alignItems: 'center'
   }
 })

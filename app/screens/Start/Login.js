@@ -15,27 +15,29 @@ export default function Login () {
   return (
     <KeyboardAwareScrollView style={{ backgroundColor: '#fff', flex: 1 }}>
       <Container>
-        <Grid>
-          <Row style={styles.rowImage}>
+        <View style={styles.viewBody}>
+          <View style={styles.containerImage}>
             <ImageStart />
-          </Row>
-          <Row style={styles.rowForm}>
+          </View>
+          <View style={styles.containerForm}>
             <LoginForm toastRef={toastRef} />
-          </Row>
-          <Row style={styles.rowBeta}>
+          </View>
+          <Register />
+          <View style={styles.containerBeta}>
             <BetaText />
-          </Row>
-          <Toast ref={toastRef} position='top' opacity={0.9} />
-        </Grid>
+          </View>
+          <Toast ref={toastRef} position='bottom' opacity={0.9} />
+        </View>
       </Container>
     </KeyboardAwareScrollView>
+
   )
 }
 /* Por ahora crearemos un componente interno para la creación de la cuenta */
 function Register () {
   const navigation = useNavigation()
   return (
-    <View style={styles.textRegister}>
+    <View style={styles.containerTextRegister}>
       <Text style={styles.textAnnouncementRegister}>
         ¿No tienes cuenta?{' '}
 
@@ -51,18 +53,32 @@ function Register () {
   )
 }
 const styles = StyleSheet.create({
-  rowImage: {
-    paddingTop: 30,
-    height: '35%'
+  viewBody: {
+    flex: 1,
+    backgroundColor: '#FFFFFF'
   },
-  rowForm: {
-    // backgroundColor: 'green',
-    height: '55%'
-  },
-  rowBeta: {
+  containerImage: {
     // backgroundColor: 'red',
-    height: '10%',
+    flex: 3,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  containerForm: {
+    // backgroundColor: 'blue',
+    flex: 4
+  },
+  containerBeta: {
+    // backgroundColor: 'green',
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  containerTextRegister: {
+    flex: 1,
+    // backgroundColor: 'yellow',
+    alignItems: 'center'
+  },
+  btnAnnouncementRegister: {
+    fontWeight: 'bold'
   }
 })
