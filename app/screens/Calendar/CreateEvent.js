@@ -9,7 +9,7 @@ export default function CreateEvent ({ navigation }) {
   const toastRef = useRef()
   return (
     <View>
-      <AddCalendarForm toasRef={toastRef} setIsLoading={setIsLoading} navigation={navigation} />
+      <AddCalendarForm toastRef={toastRef} setIsLoading={setIsLoading} navigation={navigation} />
       <Toast ref={toastRef} position='bottom' opacity={0.9} />
       <Loading isVisible={isLoading} loader={Loader} />
     </View>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, ScrollView, Alert, Dimensions, TextInput } from 'react-native'
-import { Icon, Avatar, Button } from 'react-native-elements'
+import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
+import { Icon, Button } from 'react-native-elements'
 // Importamos datetimepickermodal para usar los modal nativos de fecha y hora
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 // Importamos moment js para formatear fecha y hora
@@ -12,8 +12,17 @@ import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location'
 // Importo mi mapview para visualizar un mapa
 import MapView from 'react-native-maps'
-
+// Importo mi componente para el modal
 import Modal from '../Modal'
+
+// Importo firabase para inicializar la base de datos y enviar mi información a firestore
+import firebase from 'firebase/app'
+import firebaseApp from '../../utils/firebase'
+// Importo el firestore de mi app
+import 'firebase/firestore'
+
+// Inicializo mi bd
+const db = firebase.firestore(firebaseApp)
 
 export default function AddCalendarForm (props) {
   // Recibimos los props
@@ -25,7 +34,7 @@ export default function AddCalendarForm (props) {
   const [eventPrice, setEventPrice] = useState('')
   const [eventDate, setEventDate] = useState('')
   const [eventHour, setEventHour] = useState('')
-  const [eventPlace, setEventPlace] = useState('')
+  const [eventPlace, setEventPlace] = useState(null)
 
   // State papra la visibilidad del modal datepicker para fecha
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
@@ -70,9 +79,31 @@ export default function AddCalendarForm (props) {
   }
 
   const addEvent = () => {
-    console.log('ok')
+    if (!eventName || !eventDescription || !eventPrice || !eventDate || !eventHour) {
+      toastRef.current.show('No puedes dejar ningún campo vacio')
+    } else if (!eventPlace) {
+      toastRef.current.show('No olvides elegir una ubicación para tu evento')
+    } else {
+      db.collection('events')
+        .add({
+          name: eventName,
+          description: eventDescription,
+          price: eventPrice,
+          date: eventDate,
+          hour: eventHour,
+          place: eventPlace,
+          createAt: new Date(),
+          createBy: firebase.auth().currentUser.uid
+        })
+        .then(() => {
+          setIsLoading(false)
+          navigation.navigate('Calendar')
+        }).catch(() => {
+          setIsLoading(false)
+          toastRef.current.show('No se ha podido guardar el evento')
+        })
+    }
   }
-
   return (
     <ScrollView style={styles.scrollView}>
       <FormAdd
@@ -82,6 +113,7 @@ export default function AddCalendarForm (props) {
         // setEventDate={setEventDate}
         // setEventHour={setEventHour}
         setEventPlace={setEventPlace}
+        eventPlace={eventPlace}
         eventHour={eventHour}
         eventDate={eventDate}
         // Date picker props
@@ -104,6 +136,7 @@ export default function AddCalendarForm (props) {
       <Map
         isVisibleMap={isVisibleMap}
         setIsVisibleMap={setIsVisibleMap}
+        setEventPlace={setEventPlace}
         toastRef={toastRef}
       />
     </ScrollView>
@@ -117,6 +150,7 @@ function FormAdd (props) {
     eventDate,
     eventHour,
     setEventPlace,
+    eventPlace,
     // date picker props
     showDatePicker,
     hideDatePicker,
@@ -185,7 +219,7 @@ function FormAdd (props) {
         raised
         name='google-maps'
         type='material-community'
-        color='#C2C2C2'
+        color={eventPlace ? '#00A680' : '#C2C2C2'}
         onPress={() => setIsVisibleMap(true)}
       />
     </View>
@@ -194,8 +228,13 @@ function FormAdd (props) {
 
 function Map (props) {
   // Destructuring para recuperar las props del modal
-  const { isVisibleMap, setIsVisibleMap, toastRef } = props
-  // State para guardar la localización actual, la inicializamos
+  const {
+    isVisibleMap,
+    setIsVisibleMap,
+    setEventPlace,
+    toastRef
+  } = props
+  // State para guardar la localización actual, la inicializamos como null
   const [location, setLocation] = useState(null)
 
   useEffect(() => {
@@ -210,7 +249,9 @@ function Map (props) {
       const statusPermissions = resultPermissions.permissions.location.status
 
       if (statusPermissions !== 'granted') {
-        toastRef.current.show('Debes aceptar los permisos de localización para crear tu evento', 3000)
+        toastRef.current.show(
+          'Debes aceptar los permisos de localización para crear tu evento',
+          3000)
       } else {
         // Obtenemos la localización
         const loc = await Location.getCurrentPositionAsync({})
@@ -225,25 +266,41 @@ function Map (props) {
     })()
   }, [])
 
+  // Arrow function para guardar la ubicación en el state final, de acuerdo a lo que se almacenó en el state temporal (location)
+  const confirmLocation = () => {
+    setEventPlace(location)
+    toastRef.current.show('Ubicación guardada')
+    setIsVisibleMap(false)
+  }
   return (
     <Modal isVisible={isVisibleMap} setIsVisible={setIsVisibleMap}>
-      <View>{location && (
-        <MapView
-          style={styles.mapStyle}
-          initialRegion={location}
-          showsUserLocation
-          onRegionChange={(region) => setLocation(region)}
-        >
+      <View>
+        {
+          location
+            ? (
+              <MapView
+                style={styles.mapStyle}
+                initialRegion={location}
+                showsUserLocation
+                onRegionChange={(region) => setLocation(region)}
+              >
 
-          <MapView.Marker
-            coordinate={{
-              latitude: location.latitude,
-              longitude: location.longitude
-            }}
-            draggable
-          />
-        </MapView>
-      )}
+                <MapView.Marker
+                  coordinate={{
+                    latitude: location.latitude,
+                    longitude: location.longitude
+                  }}
+                  draggable
+                />
+              </MapView>
+            )
+            : <Text>Cargando...</Text>
+
+        }
+        <View style={styles.viewMapBtn}>
+          <Button title='Cancelar' onPress={() => setIsVisibleMap(false)} />
+          <Button title='Guardar' onPress={confirmLocation} />
+        </View>
       </View>
     </Modal>
   )
@@ -263,5 +320,11 @@ const styles = StyleSheet.create({
   mapStyle: {
     width: '100%',
     height: 550
+  },
+  viewMapBtn: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10
   }
+
 })

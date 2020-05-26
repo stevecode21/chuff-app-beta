@@ -5,7 +5,6 @@ import { Icon, Avatar, Button } from 'react-native-elements'
 import { size } from 'lodash'
 import firebase from 'firebase/app'
 import firebaseApp from '../../utils/firebase'
-
 // Importo el firestore de mi app
 import 'firebase/firestore'
 import { Container } from 'native-base'
