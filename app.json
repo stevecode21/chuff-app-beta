@@ -18,7 +18,13 @@
     "ios": {
       "supportsTablet": false
     },
-    "android": {},
+    "android": {
+      "permissions": [
+        "LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
+    },
     "description": "Chuff - ¡Comamos Juntos!",
     "githubUrl": "https://github.com/stevecode21/chuff-app-beta"
   }
