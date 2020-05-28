@@ -14,6 +14,7 @@ import * as Location from 'expo-location'
 import MapView from 'react-native-maps'
 // Importo mi componente para el modal
 import Modal from '../Modal'
+import loader from '../../../assets/gifs/loader-food.gif'
 
 // Importo firabase para inicializar la base de datos y enviar mi información a firestore
 import firebase from 'firebase/app'
@@ -84,6 +85,7 @@ export default function AddCalendarForm (props) {
     } else if (!eventPlace) {
       toastRef.current.show('No olvides elegir una ubicación para tu evento')
     } else {
+      setIsLoading(true)
       db.collection('events')
         .add({
           name: eventName,
@@ -139,6 +141,7 @@ export default function AddCalendarForm (props) {
         setEventPlace={setEventPlace}
         toastRef={toastRef}
       />
+      {/* <Loading isVisible={loading} loader={loader} /> */}
     </ScrollView>
   )
 }

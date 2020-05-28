@@ -19,6 +19,12 @@
       "supportsTablet": false
     },
     "android": {
+      "package": "com.chuff.chuffapp",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAXpJ_F11hh6f4pwsBDeQd3Mpm3Z2KQs70"
+        }
+      },
       "permissions": [
         "LOCATION",
         "ACCESS_COARSE_LOCATION",
