@@ -3,7 +3,8 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 // Importa la screen que tendrá mi stack
 import Calendar from '../screens/Calendar/Calendar'
-import CreatEvent from '../screens/Calendar/CreateEvent'
+import CreateEvent from '../screens/Calendar/CreateEvent'
+import Event from '../screens/Calendar/Event'
 const Stack = createStackNavigator()
 
 export default function CalendarStack () {
@@ -22,7 +23,11 @@ export default function CalendarStack () {
       />
       <Stack.Screen
         name='add-event'
-        component={CreatEvent}
+        component={CreateEvent}
+      />
+      <Stack.Screen
+        name='event'
+        component={Event}
       />
     </Stack.Navigator>
   )

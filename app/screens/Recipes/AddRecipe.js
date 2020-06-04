@@ -4,6 +4,16 @@ import Toast from 'react-native-easy-toast'
 import Loading from '../../components/Loading/Loading'
 import AddRecipeForm from '../../components/Recipes/AddRecipeForm'
 export default function AddRecipe ({ navigation }) {
+  // useFocusEffect(
+  //   React.useCallback((focusScreen) => {
+  //     focusScreen = false
+  //     return (focusScreen) => {
+  //       focusScreen = true
+  //       // Do something when the screen is unfocused
+  //       // Useful for cleanup functions
+  //     }
+  //   })
+  // )
   // State para el loading
   const [isLoading, setIsLoading] = useState(false)
   // ref hook para el toast
